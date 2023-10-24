@@ -1,6 +1,6 @@
 name: Debricked scan
 
-on: [push, workflow_call]
+on: [push]
 
 jobs:
   vulnerabilities-scan:
