@@ -77,7 +77,7 @@ the Debricked CLI makes the preparation of your payload easy through the `debric
 > Note: Unlike scanning your open source through Debricked standalone, where the `debricked scan` command can be used, initating a scan through FoD is not possible using the Debricked CLI. You should therefore not use "debricked scan" as a user of FoD.
 
 ### What is lock file resolution and why is it needed?
-Lock file resolution is the process of using the dependencies requested in a manifest file (which most often is restricted to the direct dependencies of the project) to generate a lock file, containing all transitive/indirect dependencies with locked versions, as well as the relations between the dependencies. 
+Lock file resolution is the process of using the dependencies requested in a manifest file (which most often is restricted to the direct dependencies of the project) to generate a lock file, containing all direct and indirect/transitive dependencies with locked versions, as well as the relations between the dependencies. 
 
 Getting the complete information of all dependencies, with versions and their relations is important to ensure that Debricked can make a complete and accurate analysis of the project. This ensures that the generated SBOM is accurate and that the suggestions made for remediating potential issues are correct. 
 
