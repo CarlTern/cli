@@ -79,7 +79,7 @@ the Debricked CLI makes the preparation of your payload easy through the `debric
 ### What is lock file resolution and why is it needed?
 Lock file resolution is the process of using the dependencies requested in a manifest file (which most often is restricted to the direct dependencies of the project) to generate a lock file, containing all direct and indirect/transitive dependencies with locked versions, as well as the relations between the dependencies. 
 
-Getting the complete information for all dependencies, with versions and their relations is important to ensure that Debricked can make a complete and accurate analysis of the project. This ensures that the generated SBOM is accurate and that the suggestions made for remediating potential issues are correct. 
+Getting the complete information for all dependencies, with versions and their relations is important to ensure that Debricked can make a complete and accurate analysis of the project. It will also ensure that the generated SBOM is accurate and that the suggestions made for remediating potential issues are correct. 
 
 Many package managers have support for building and maintaining native lock files from manifest files, while others do not. In most of these cases, there are still native commands that can be used to produce the same information.
 
