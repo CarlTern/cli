@@ -74,10 +74,21 @@ docker pull debricked/cli
 If you're looking to scan your Open Source dependencies with Debricked through [Fortify on Demand](https://www.microfocus.com/en-us/cyberres/application-security/fortify-on-demand), 
 the Debricked CLI makes the preparation of your payload easy through the `debricked resolve` command. 
 
-> Note: Unlike scanning your open source through Debricked standalone, where the `debricked scan` command can be used, initating a scan through FoD is not possible using the Debricked CLI.
+> Note: Unlike scanning your open source through Debricked standalone, where the `debricked scan` command can be used, initating a scan through FoD is not possible using the Debricked CLI. You should therefore not use "debricked scan" as a user of FoD.
 
-Once you've installed the CLI, you simply use `debricked resolve` to have Debricked generate the needed lock files for scanning, using FoD. The command identifies all eligible 
-files in the current directory/payload and runs native package manager commands to generate the lock files.
+### What is lock file resolution and why is it needed?
+Lock file resolution is the process of using the dependencies requested in a manifest file (which most often is restricted to the direct dependencies of the project) to generate a lock file, containing all transitive/indirect dependencies with locked versions, as well as the relations between the dependencies. 
+
+Getting the complete information of all dependencies, with versions and their relations is important to ensure that Debricked can make a complete and accurate analysis of the project. This ensures that the generated SBOM is accurate and that the suggestions made for remediating potential issues are correct. 
+
+Many package managers have support for building and maintaining native lock files from manifest files, while others do not. In most of these cases, there are still native commands that can be used to produce the same information.
+
+### How does the command work?
+Once you've installed the CLI, you simply use `debricked resolve` to have Debricked generate the needed lock files for scanning, using FoD. The command identifies all eligible files in the current directory/payload and runs the necessary commands to generate the lock files.
+
+Debricked resolves into native lock files where possible, but uses custom Debricked lock formats when needed. To resolve manifest files (such as package.json and build.gradle) into lock files (eg. yarn.lock and the Debricked lock format gradle.debricked.lock), native commands from the package managers are used, such as `yarn install` and `gradle dependencies`. 
+
+It is therefore important that the package managers are installed, with the right versions, wherever you run the `debricked resolve` command. The best way to achieve this is to run it in a development or build environment.
 
 When the resolution is complete, you will see the list of files that were resolved. If the resolution were to fail, descriptive error messages from the respective package manager 
 will be shown in the output.
