@@ -1,6 +1,11 @@
 stages:
   - scan
 debricked:
+  # Here we provide a base image with some installed package managers, like maven and nuget, to perform resolution. 
+  # To see our choices of versions and provided PM's, please check image definitions: https://github.com/debricked/cli/tree/main/build/docker
+  # Important note: To achieve the best results in your scans, we should perform this scan in your build images. 
+  # Note for python users: Please use debricked/cli:latest-resolution-debian for faster installation of most c-based packages, like pandas and numpy. 
+  image: debricked/cli:latest-resolution
   stage: scan
   script:
     - curl -L https://github.com/debricked/cli/releases/latest/download/cli_linux_x86_64.tar.gz | tar -xz debricked
