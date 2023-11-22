@@ -8,6 +8,7 @@ jobs:
     container: debricked/cli:latest-resolution
     steps:
       - uses: actions/checkout@v3
+      - run: apk info -vv
       - run: apk -R info -vv
       - run: apk -R info -vv g++
       - run: apk list --installed
