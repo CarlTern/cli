@@ -9,5 +9,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: apk -R info
-      - run: apk -r info
-      - run: apt list --installed
+      - run: apk list --installed
