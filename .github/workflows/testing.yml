@@ -5,7 +5,7 @@ on: [push]
 jobs:
   scan_test:
     runs-on: ubuntu-latest
-    container: debricked/cli:latest-resolution-alpine
+    container: debricked/cli:latest-resolution
     steps:
       - uses: actions/checkout@v3
       - run: apk -R info
