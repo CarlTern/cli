@@ -8,8 +8,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: debricked/actions@v3
-        env:
-          DEBRICKED_TOKEN: ${{ secrets.DEBRICKED_TOKEN }}
       - run: apk -R info
       - run: apk -r info
