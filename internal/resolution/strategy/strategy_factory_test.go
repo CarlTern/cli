@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/debricked/cli/internal/resolution/file"
+	"github.com/debricked/cli/internal/resolution/pm/cargo"
+	"github.com/debricked/cli/internal/resolution/pm/cocoapods"
 	"github.com/debricked/cli/internal/resolution/pm/composer"
 	"github.com/debricked/cli/internal/resolution/pm/gomod"
 	"github.com/debricked/cli/internal/resolution/pm/gradle"
@@ -31,14 +33,16 @@ func TestMakeErr(t *testing.T) {
 
 func TestMake(t *testing.T) {
 	cases := map[string]IStrategy{
-		maven.Name:    maven.NewStrategy(nil),
-		gradle.Name:   gradle.NewStrategy(nil, nil),
-		gomod.Name:    gomod.NewStrategy(nil),
-		pip.Name:      pip.NewStrategy(nil),
-		yarn.Name:     yarn.NewStrategy(nil),
-		nuget.Name:    nuget.NewStrategy(nil),
-		composer.Name: composer.NewStrategy(nil),
-		sbt.Name:      sbt.NewStrategy(nil),
+		maven.Name:     maven.NewStrategy(nil),
+		gradle.Name:    gradle.NewStrategy(nil, nil),
+		gomod.Name:     gomod.NewStrategy(nil),
+		pip.Name:       pip.NewStrategy(nil),
+		yarn.Name:      yarn.NewStrategy(nil),
+		nuget.Name:     nuget.NewStrategy(nil),
+		composer.Name:  composer.NewStrategy(nil),
+		sbt.Name:       sbt.NewStrategy(nil),
+		cocoapods.Name: cocoapods.NewStrategy(nil),
+		cargo.Name:     cargo.NewStrategy(nil),
 	}
 	f := NewStrategyFactory()
 	var batch file.IBatch

@@ -79,6 +79,12 @@ func TestResolves(t *testing.T) {
 			lockFileName:   "gradle.debricked.lock",
 			packageManager: "gradle",
 		},
+		{
+			name:           "basic Podfile",
+			manifestFile:   "testdata/cocoapods/Podfile",
+			lockFileName:   "Podfile.lock",
+			packageManager: "cocoapods",
+		},
 	}
 
 	for _, cT := range cases {

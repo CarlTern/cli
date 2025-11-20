@@ -5,6 +5,8 @@ import (
 
 	"github.com/debricked/cli/internal/resolution/file"
 	"github.com/debricked/cli/internal/resolution/pm/bower"
+	cargo "github.com/debricked/cli/internal/resolution/pm/cargo"
+	"github.com/debricked/cli/internal/resolution/pm/cocoapods"
 	"github.com/debricked/cli/internal/resolution/pm/composer"
 	"github.com/debricked/cli/internal/resolution/pm/gomod"
 	"github.com/debricked/cli/internal/resolution/pm/gradle"
@@ -50,6 +52,10 @@ func (sf Factory) Make(pmFileBatch file.IBatch, paths []string) (IStrategy, erro
 		return composer.NewStrategy(pmFileBatch.Files()), nil
 	case sbt.Name:
 		return sbt.NewStrategy(pmFileBatch.Files()), nil
+	case cocoapods.Name:
+		return cocoapods.NewStrategy(pmFileBatch.Files()), nil
+	case cargo.Name:
+		return cargo.NewStrategy(pmFileBatch.Files()), nil
 	default:
 		return nil, fmt.Errorf("failed to make strategy from %s", name)
 	}

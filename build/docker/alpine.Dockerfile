@@ -81,6 +81,15 @@ RUN apk add --no-cache --virtual build-dependencies curl && \
 
 RUN php -v && composer --version && sbt --version
 
+# Install CocoaPods using Ruby
+RUN apk add --no-cache ruby ruby-dev ruby-bundler && \
+    gem install cocoapods && \ 
+    pod --version
+
+# Install Rust and Cargo
+RUN apk add --no-cache rust cargo && \
+    cargo --version
+
 CMD [ "debricked",  "scan" ]
 
 # Put copy at the end to speedup Docker build by caching previous RUNs and run those concurrently

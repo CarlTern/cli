@@ -200,6 +200,35 @@ func (finder *Finder) GetGroups(options DebrickedOptions) (Groups, error) {
 	return groups, err
 }
 
+// GetNonSupportedFormats returns dependency file formats that are not supported for scanning, but are connected to supported lock files.
+func GetNonSupportedFormats() []*Format {
+	sbtEntry := &Format{
+		ManifestFileRegex: "^build\\.sbt$",
+		DocumentationUrl:  "https://docs.debricked.com/overview/language-support/scala-sbt",
+		LockFileRegexes:   []string{""},
+	}
+
+	cocoaPodsEntry := &Format{
+		ManifestFileRegex: "^Podfile$",
+		DocumentationUrl:  "https://docs.debricked.com/overview/language-support/swift-cocoapods",
+		LockFileRegexes:   []string{"^Podfile\\.lock$"},
+	}
+
+	cargoEntry := &Format{
+		ManifestFileRegex: "^Cargo\\.toml$",
+		DocumentationUrl:  "https://docs.debricked.com/overview/language-support/rust-cargo",
+		LockFileRegexes:   []string{"^Cargo\\.lock$"},
+	}
+
+	rubyGemsEntry := &Format{
+		ManifestFileRegex: "^Gemfile$",
+		DocumentationUrl:  "https://docs.debricked.com/overview/language-support/ruby-bundler",
+		LockFileRegexes:   []string{"^Gemfile\\.lock$"},
+	}
+
+	return []*Format{sbtEntry, cocoaPodsEntry, cargoEntry, rubyGemsEntry}
+}
+
 // GetSupportedFormats returns all supported dependency file formats
 func (finder *Finder) GetSupportedFormats() ([]*CompiledFormat, error) {
 	body, err := finder.GetSupportedFormatsJson()
@@ -213,13 +242,7 @@ func (finder *Finder) GetSupportedFormats() ([]*CompiledFormat, error) {
 		return nil, err
 	}
 
-	sbtEntry := &Format{
-		ManifestFileRegex: "^build\\.sbt$",
-		DocumentationUrl:  "https://docs.debricked.com/overview/language-support/scala-sbt",
-		LockFileRegexes:   []string{""},
-	}
-
-	formats = append(formats, sbtEntry)
+	formats = append(formats, GetNonSupportedFormats()...)
 
 	var compiledDependencyFileFormats []*CompiledFormat
 	for _, format := range formats {

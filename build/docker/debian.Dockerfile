@@ -123,6 +123,15 @@ RUN curl -fsSLO https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt
 
 RUN sbt --version
 
+# Install CocoaPods using Ruby
+RUN apt -y update && apt -y install ruby-full && \
+    gem install cocoapods && \
+    pod --version
+
+# Install Rust and Cargo
+RUN apt -y update && apt -y install cargo && \
+    cargo --version
+
 RUN apt -y update && apt -y install \
     php8.3 \
     php8.3-curl \

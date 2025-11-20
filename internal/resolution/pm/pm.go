@@ -2,6 +2,8 @@ package pm
 
 import (
 	"github.com/debricked/cli/internal/resolution/pm/bower"
+	"github.com/debricked/cli/internal/resolution/pm/cargo"
+	"github.com/debricked/cli/internal/resolution/pm/cocoapods"
 	"github.com/debricked/cli/internal/resolution/pm/composer"
 	"github.com/debricked/cli/internal/resolution/pm/gomod"
 	"github.com/debricked/cli/internal/resolution/pm/gradle"
@@ -30,5 +32,7 @@ func Pms() []IPm {
 		nuget.NewPm(),
 		composer.NewPm(),
 		sbt.NewPm(),
+		cocoapods.NewPm(),
+		cargo.NewPm(),
 	}
 }
