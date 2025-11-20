@@ -19,6 +19,8 @@ import (
 	"github.com/debricked/cli/internal/resolution/strategy"
 	"github.com/debricked/cli/internal/scan"
 	"github.com/debricked/cli/internal/upload"
+	"github.com/debricked/cli/internal/vulnerabilities/list"
+	"github.com/debricked/cli/internal/vulnerabilities/remediate"
 	"github.com/hashicorp/go-retryablehttp"
 
 	"sync"
@@ -91,6 +93,9 @@ func (cc *CliContainer) wire() error {
 		cc.callgraph,
 	)
 
+	cc.vulnerabilitiesRemediator = remediate.Vulnerabilities{DebClient: cc.debClient}
+	cc.vulnerabilitiesLister = list.Vulnerabilities{DebClient: cc.debClient}
+
 	cc.licenseReporter = licenseReport.Reporter{DebClient: cc.debClient}
 	cc.vulnerabilityReporter = vulnerabilityReport.Reporter{DebClient: cc.debClient}
 	cc.sbomReporter = sbomReport.Reporter{DebClient: cc.debClient, FileWriter: io.FileWriter{}}
@@ -100,24 +105,26 @@ func (cc *CliContainer) wire() error {
 }
 
 type CliContainer struct {
-	retryClient           *retryablehttp.Client
-	debClient             client.IDebClient
-	finder                file.IFinder
-	fingerprinter         fingerprint.IFingerprint
-	uploader              upload.IUploader
-	ciService             ci.IService
-	scanner               scan.IScanner
-	resolver              resolution.IResolver
-	scheduler             resolution.IScheduler
-	strategyFactory       strategy.IFactory
-	batchFactory          resolutionFile.IBatchFactory
-	licenseReporter       licenseReport.Reporter
-	vulnerabilityReporter vulnerabilityReport.Reporter
-	sbomReporter          sbomReport.Reporter
-	callgraph             callgraph.IGenerator
-	cgScheduler           callgraph.IScheduler
-	cgStrategyFactory     callgraphStrategy.IFactory
-	authenticator         auth.IAuthenticator
+	retryClient               *retryablehttp.Client
+	debClient                 client.IDebClient
+	finder                    file.IFinder
+	fingerprinter             fingerprint.IFingerprint
+	uploader                  upload.IUploader
+	ciService                 ci.IService
+	scanner                   scan.IScanner
+	resolver                  resolution.IResolver
+	scheduler                 resolution.IScheduler
+	strategyFactory           strategy.IFactory
+	batchFactory              resolutionFile.IBatchFactory
+	licenseReporter           licenseReport.Reporter
+	vulnerabilityReporter     vulnerabilityReport.Reporter
+	sbomReporter              sbomReport.Reporter
+	callgraph                 callgraph.IGenerator
+	cgScheduler               callgraph.IScheduler
+	cgStrategyFactory         callgraphStrategy.IFactory
+	authenticator             auth.IAuthenticator
+	vulnerabilitiesRemediator remediate.Vulnerabilities
+	vulnerabilitiesLister     list.Vulnerabilities
 }
 
 func (cc *CliContainer) DebClient() client.IDebClient {
@@ -150,6 +157,14 @@ func (cc *CliContainer) VulnerabilityReporter() vulnerabilityReport.Reporter {
 
 func (cc *CliContainer) SBOMReporter() sbomReport.Reporter {
 	return cc.sbomReporter
+}
+
+func (cc *CliContainer) VulnerabilitiesRemediator() remediate.Vulnerabilities {
+	return cc.vulnerabilitiesRemediator
+}
+
+func (cc *CliContainer) VulnerabilitiesLister() list.Vulnerabilities {
+	return cc.vulnerabilitiesLister
 }
 
 func (cc *CliContainer) Fingerprinter() fingerprint.IFingerprint {

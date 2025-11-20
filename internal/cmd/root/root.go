@@ -8,6 +8,7 @@ import (
 	"github.com/debricked/cli/internal/cmd/report"
 	"github.com/debricked/cli/internal/cmd/resolve"
 	"github.com/debricked/cli/internal/cmd/scan"
+	"github.com/debricked/cli/internal/cmd/vulnerabilities"
 	"github.com/debricked/cli/internal/wire"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -53,6 +54,7 @@ Read more: https://docs.debricked.com/product/administration/generate-access-tok
 	rootCmd.AddCommand(resolve.NewResolveCmd(container.Resolver()))
 	rootCmd.AddCommand(callgraph.NewCallgraphCmd(container.CallgraphGenerator()))
 	rootCmd.AddCommand(auth.NewAuthCmd(container.Authenticator()))
+	rootCmd.AddCommand(vulnerabilities.NewVulnerabilitiesCmd(container.VulnerabilitiesRemediator(), container.VulnerabilitiesLister()))
 
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 
